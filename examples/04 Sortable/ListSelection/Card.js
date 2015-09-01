@@ -40,15 +40,18 @@ export default class Card {
     isDragging: PropTypes.bool.isRequired,
     id: PropTypes.any.isRequired,
     text: PropTypes.string.isRequired,
-    moveCard: PropTypes.func.isRequired
+    moveCard: PropTypes.func.isRequired,
+    selectCard: PropTypes.func.isRequired,
+    selected: PropTypes.bool.isRequired
   };
 
   render() {
-    const { text, isDragging, connectDragSource, connectDropTarget } = this.props;
+    const { text, isDragging, connectDragSource, connectDropTarget, selectCard, selected } = this.props;
     const opacity = isDragging ? 0 : 1;
+    const backgroundColor = selected ? 'lightblue' : style.backgroundColor;
 
     return connectDragSource(connectDropTarget(
-      <div style={{ ...style, opacity }}>
+      <div onClick={(e)=>selectCard(e, this.props.id)} style={{ ...style, opacity, backgroundColor }}>
         {text}
       </div>
     ));

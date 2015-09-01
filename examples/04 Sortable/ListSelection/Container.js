@@ -4,6 +4,7 @@ import Card from './Card';
 import BoxTarget from './BoxTarget';
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd/modules/backends/HTML5';
+import _ from 'lodash'
 
 const style = {
   width: 600
@@ -15,30 +16,39 @@ export default class Container extends Component {
     super(props);
     this.moveCard = this.moveCard.bind(this);
     this.moveCardToBox = this.moveCardToBox.bind(this);
+    this.selectCard = this.selectCard.bind(this);
     this.state = {
       cards: [{
         id: 1,
-        text: 'Write a cool JS library'
+        text: 'Write a cool JS library',
+        selected: false
       }, {
         id: 2,
-        text: 'Make it generic enough'
+        text: 'Make it generic enough',
+        selected: false
       }, {
         id: 3,
-        text: 'Write README'
+        text: 'Write README',
+        selected: false
       }, {
         id: 4,
-        text: 'Create some examples'
+        text: 'Create some examples',
+        selected: false
       }, {
         id: 5,
-        text: 'Spam in Twitter and IRC to promote it'
+        text: 'Spam in Twitter and IRC to promote it',
+        selected: false
       }, {
         id: 6,
-        text: '???'
+        text: '???',
+        selected: false
       }, {
         id: 7,
-        text: 'PROFIT'
+        text: 'PROFIT',
+        selected: false
       }],
-      cardsInBox: []
+      cardsInBox: [],
+      selectedCards: []
     };
   }
 
@@ -66,6 +76,35 @@ export default class Container extends Component {
     }));
   }
 
+  selectCard(e, id) {
+      var combineSelections = function (currentIndex, lastIndex, shiftKey, ctrlKey) {
+              if (shiftKey) {
+                  return lastIndex <= currentIndex ? _.range(lastIndex, currentIndex+1): _.range(currentIndex, lastIndex+1);
+              } else {
+                  return [currentIndex];
+              }
+          },
+          lastSelected = this.state.lastSelected,
+          indexOfCurrent = _.findIndex(this.state.cards, (card => card.id === id)),
+          selectedIndexes = combineSelections(indexOfCurrent, this.state.anchorIndex, e.shiftKey, e.ctrlKey),
+          updateCard = function (card, index) {
+              if (selectedIndexes.indexOf(index) !== -1) {
+                  card.selected = true;
+              } else {
+                  card.selected = false;
+              }
+              return card;
+          },
+          updatedCards = this.state.cards.map(updateCard);
+      console.log(e);
+      console.log(e.shiftKey);
+
+    this.setState({
+        cards: updatedCards,
+        anchorIndex: e.shiftKey? this.state.anchorIndex : indexOfCurrent
+    });
+  }
+
   render() {
     const { cards } = this.state;
     const boxCards = cards.filter(card => this.state.cardsInBox.indexOf(card.id) !== -1).map(card => {
@@ -80,7 +119,9 @@ export default class Container extends Component {
               <Card key={card.id}
                     id={card.id}
                     text={card.text}
-                    moveCard={this.moveCard} />
+                    moveCard={this.moveCard}
+                    selectCard={this.selectCard}
+                    selected={card.selected} />
             );
           })}
         </div>

@@ -40,7 +40,7 @@
     "disposables": "^1.0.1",
     "dnd-core": "^1.1.0",
     "invariant": "^2.1.0",
-    "lodash": "^3.1.0"
+    "lodash": "^3.10.1"
   },
   "peerDependencies": {
     "react": ">=0.13.0 <0.15.0 || ^0.14.0-alpha"
