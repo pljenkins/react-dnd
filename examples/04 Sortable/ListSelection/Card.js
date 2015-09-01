@@ -11,6 +11,9 @@ const style = {
 };
 
 const cardSource = {
+  canDrag(props) {
+      return props.selected;
+  },
   beginDrag(props) {
     return { id: props.id };
   }
