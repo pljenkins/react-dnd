@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import update from 'react/lib/update';
 import Card from './Card';
+import BoxTarget from './BoxTarget';
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd/modules/backends/HTML5';
 
 const style = {
-  width: 400
+  width: 600
 };
 
 @DragDropContext(HTML5Backend)
@@ -13,6 +14,7 @@ export default class Container extends Component {
   constructor(props) {
     super(props);
     this.moveCard = this.moveCard.bind(this);
+    this.moveCardToBox = this.moveCardToBox.bind(this);
     this.state = {
       cards: [{
         id: 1,
@@ -35,7 +37,8 @@ export default class Container extends Component {
       }, {
         id: 7,
         text: 'PROFIT'
-      }]
+      }],
+      cardsInBox: []
     };
   }
 
@@ -57,19 +60,34 @@ export default class Container extends Component {
     }));
   }
 
+  moveCardToBox(id) {
+    this.setState(update(this.state, {
+      cardsInBox: { $push: [id] }
+    }));
+  }
+
   render() {
     const { cards } = this.state;
+    const boxCards = cards.filter(card => this.state.cardsInBox.indexOf(card.id) !== -1).map(card => {
+      return (card.text)
+    })
 
     return (
       <div style={style}>
-        {cards.map(card => {
-          return (
-            <Card key={card.id}
-                  id={card.id}
-                  text={card.text}
-                  moveCard={this.moveCard} />
-          );
-        })}
+        <div style={{ float: 'left' }}>
+          {cards.filter(card => this.state.cardsInBox.indexOf(card.id) === -1).map(card => {
+            return (
+              <Card key={card.id}
+                    id={card.id}
+                    text={card.text}
+                    moveCard={this.moveCard} />
+            );
+          })}
+        </div>
+        <div style={{ float: 'right'}}>
+          <BoxTarget  items={boxCards}
+                      moveCardToBox={this.moveCardToBox}/>
+        </div>
       </div>
     );
   }

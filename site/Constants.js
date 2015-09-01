@@ -146,6 +146,10 @@ export const ExamplePages = [{
       location: 'examples-sortable-simple.html',
       title: 'Simple'
     },
+    LIST_SELECTION: {
+      location: 'examples-list-selection.html',
+      title: 'List Selection'
+    },
     SORTABLE_CANCEL_ON_DROP_OUTSIDE: {
       location: 'examples-sortable-cancel-on-drop-outside.html',
       title: 'Cancel on Drop Outside'
