@@ -83,6 +83,16 @@ export default class Container extends Component {
   }
 
   selectCard(e, id) {
+    console.log(arguments);
+    console.log(e.targetTouches);
+    console.log('button', e.button);
+    if( e.targetTouches ) {
+      e.preventDefault();
+    }
+    if (e.targetTouches && e.targetTouches && e.targetTouches.length > 1) {
+      e.shiftKey = true;
+      console.log('multitouch');
+    }
       // indices?
       var currentlySelectedIndexes = this.state.cards.map((card, index) => card.selected ? index : null).filter(index => index !== null),
           combineSelections = function (currentIndex, lastIndex, e) {

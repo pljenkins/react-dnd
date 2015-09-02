@@ -9,7 +9,8 @@ import TouchBackend from 'react-dnd/modules/backends/Touch';
 @DragDropContext(SupportsTouch() ? TouchBackend : HTML5Backend)
 export default class ListSelection extends Component {
   constructor(props) {
-      super(props);
+    super(props);
+    React.initializeTouchEvents(true);
   }
 
   render() {

@@ -85,7 +85,6 @@ export default class Card {
     left: PropTypes.number.isRequired,
     top: PropTypes.number.isRequired
   };
-
   render() {
     const { text, isDragging, connectDragSource, connectDropTarget, selectCard, selected } = this.props;
     const opacity = isDragging ? 0 : 1;
@@ -93,7 +92,7 @@ export default class Card {
 //      <div style={ getStyles(this.props) }>
 
     return connectDragSource(connectDropTarget(
-      <div onClick={(e)=>selectCard(e, this.props.id)} style={{ ...style, opacity, backgroundColor }}>
+      <div onClick={(e)=>selectCard(e, this.props.id)} onTouchStart={(e)=>selectCard(e, this.props.id)} style={{ ...style, opacity, backgroundColor }}>
         {text}
       </div>
     ));
