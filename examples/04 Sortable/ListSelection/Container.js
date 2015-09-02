@@ -3,21 +3,28 @@ import shouldPureComponentUpdate from './shouldPureComponentUpdate';
 import update from 'react/lib/update';
 import Card from './Card';
 import BoxTarget from './BoxTarget';
-import _ from 'lodash'
+import _ from 'lodash';
+import SupportsTouch from '../../SupportsTouch';
 
 const style = {
   width: 750
 };
+
+var singleTouch;
 // TODO-NK: have the option of doing fancy styling somewhere based on whether
 // user is still dragging or not here, but this is good enough for now
 
 export default class Container extends Component {
+  supportsTouch = undefined;
   constructor(props) {
     super(props);
     this.moveRecentCardsBackFromBox = this.moveRecentCardsBackFromBox.bind(this);
     this.moveSelectedCardsToBox = this.moveSelectedCardsToBox.bind(this);
     this.completeBoxMove = this.completeBoxMove.bind(this);
+    this.debounceTouch = this.debounceTouch.bind(this);
     this.selectCard = this.selectCard.bind(this);
+    this.supportsTouch = SupportsTouch();
+    console.log('constructor this.supportsTouch', this.supportsTouch);
     this.state = {
       cards: [{
         id: 1,
@@ -82,18 +89,27 @@ export default class Container extends Component {
       this.setState({ cardsInBox: cardsInBox });
   }
 
-  selectCard(e, id) {
-    console.log(arguments);
-    console.log(e.targetTouches);
-    console.log('button', e.button);
-    if( e.targetTouches ) {
-      e.preventDefault();
+  debounceTouch(e, id) {
+    console.log('targetTouches length in debounceTouch: ', e.targetTouches.length);
+    if (e.targetTouches.length === 1) {
+      singleTouch = _.debounce(this.selectCard, 50)(e, id);
+    } if (e.targetTouches.length === 2) {
+      if (!_.isUndefined(singleTouch)) {
+        singleTouch.cancel();
+      }
+      this.selectCard(e, id);
     }
+    console.log('end of debounceTouch');
+  }
+
+  selectCard(e, id) {
+    console.log('selectCard arguments', arguments);
+
     if (e.targetTouches && e.targetTouches && e.targetTouches.length > 1) {
       e.shiftKey = true;
       console.log('multitouch');
     }
-      // indices?
+    // indices?
       var currentlySelectedIndexes = this.state.cards.map((card, index) => card.selected ? index : null).filter(index => index !== null),
           combineSelections = function (currentIndex, lastIndex, e) {
               var indexOfIndex = currentlySelectedIndexes.indexOf(currentIndex); // sorry
@@ -108,7 +124,7 @@ export default class Container extends Component {
                   var indexesToAdd = lastIndex <= currentIndex ? _.range(lastIndex, currentIndex+1): _.range(currentIndex, lastIndex+1);
                   currentlySelectedIndexes = currentlySelectedIndexes.concat(indexesToAdd);
               }
-              return currentlySelectedIndexes; 
+              return currentlySelectedIndexes;
           },
           indexOfCurrent = _.findIndex(this.state.cards, (card => card.id === id)),
           selectedIndexes = combineSelections(indexOfCurrent, this.state.anchorIndex, e),
@@ -145,7 +161,9 @@ export default class Container extends Component {
                     completeBoxMove={this.completeBoxMove}
                     moveRecentCardsBackFromBox={this.moveRecentCardsBackFromBox}
                     selectCard={this.selectCard}
-                    selected={card.selected} />
+                    debounceTouch={this.debounceTouch}
+                    selected={card.selected}
+                    supportsTouch={true}/>
             );
           })}
         </div>
