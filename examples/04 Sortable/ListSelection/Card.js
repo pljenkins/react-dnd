@@ -98,7 +98,6 @@ export default class Card {
         {text}
       </div>
     ));
-    console.log('end of cardRender');
     return tmp;
   }
 }

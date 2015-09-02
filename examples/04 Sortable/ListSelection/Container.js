@@ -90,24 +90,25 @@ export default class Container extends Component {
   }
 
   debounceTouch(e, id) {
-    console.log('targetTouches length in debounceTouch: ', e.targetTouches.length);
+    console.log('debounceTouch', e.targetTouches.length, id, e);
     if (e.targetTouches.length === 1) {
-      singleTouch = _.debounce(this.selectCard, 50)(e, id);
+      singleTouch = _.debounce(this.selectCard, 100);
+      singleTouch(e, id);
     } if (e.targetTouches.length === 2) {
       if (!_.isUndefined(singleTouch)) {
         singleTouch.cancel();
       }
       this.selectCard(e, id);
     }
-    console.log('end of debounceTouch');
   }
 
   selectCard(e, id) {
-    console.log('selectCard arguments', arguments);
+    e.targetTouches = e.targetTouches || [];
+    console.log('selectCard arguments', e.targetTouches.length, id, e);
 
     if (e.targetTouches && e.targetTouches && e.targetTouches.length > 1) {
       e.shiftKey = true;
-      console.log('multitouch');
+      console.log('selectCard multitouch');
     }
     // indices?
       var currentlySelectedIndexes = this.state.cards.map((card, index) => card.selected ? index : null).filter(index => index !== null),
