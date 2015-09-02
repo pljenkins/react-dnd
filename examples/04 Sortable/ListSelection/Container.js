@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
+import shouldPureComponentUpdate from './shouldPureComponentUpdate';
 import update from 'react/lib/update';
 import Card from './Card';
 import BoxTarget from './BoxTarget';
-import { DragDropContext } from 'react-dnd';
-import HTML5Backend from 'react-dnd/modules/backends/HTML5';
 import _ from 'lodash'
 
 const style = {
@@ -12,7 +11,6 @@ const style = {
 // TODO-NK: have the option of doing fancy styling somewhere based on whether
 // user is still dragging or not here, but this is good enough for now
 
-@DragDropContext(HTML5Backend)
 export default class Container extends Component {
   constructor(props) {
     super(props);
@@ -124,7 +122,7 @@ export default class Container extends Component {
     const { cards } = this.state;
     const boxCards = cards.filter(card => this.state.cardsInBox.indexOf(card.id) !== -1).map(card => {
       return (card.text)
-    })
+    });
 
     return (
       <div style={style}>

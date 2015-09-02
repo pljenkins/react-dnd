@@ -1,6 +1,8 @@
 import React, { PropTypes } from 'react';
+import shouldPureComponentUpdate from './shouldPureComponentUpdate';
 import ItemTypes from './ItemTypes';
 import { DragSource, DropTarget } from 'react-dnd';
+import { getEmptyImage } from 'react-dnd/modules/backends/HTML5';
 
 const style = {
   border: '1px dashed gray',
@@ -26,6 +28,32 @@ const cardSource = {
       }
     }
 };
+
+//const cardSource = {
+//  beginDrag(props) {
+//    const { id, text, left, top } = props;
+//    return { id, text, left, top };  }
+//};
+//
+//function getStyles(props) {
+//  const { left, top, isDragging } = props;
+//  const transform = `translate3d(${left}px, ${top}px, 0)`;
+//
+//  return {
+//    border: '1px dashed gray',
+//    padding: '0.5rem 1rem',
+//    marginBottom: '.5rem',
+//    backgroundColor: 'white',
+//    cursor: 'move',
+//    // position: 'absolute',
+//    // transform: transform,
+//    // WebkitTransform: transform,
+//    // IE fallback: hide the real node using CSS when dragging
+//    // because IE will ignore our custom "empty image" drag preview.
+//    opacity: isDragging ? 0 : 1,
+//    height: isDragging ? 0 : ''
+//  };
+//}
 
 const cardTarget = {
   canDrop() {
@@ -53,13 +81,16 @@ export default class Card {
     moveRecentCardsBackFromBox: PropTypes.func.isRequired,
     completeBoxMove: PropTypes.func.isRequired,
     selectCard: PropTypes.func.isRequired,
-    selected: PropTypes.bool.isRequired
+    selected: PropTypes.bool.isRequired,
+    left: PropTypes.number.isRequired,
+    top: PropTypes.number.isRequired
   };
 
   render() {
     const { text, isDragging, connectDragSource, connectDropTarget, selectCard, selected } = this.props;
     const opacity = isDragging ? 0 : 1;
     const backgroundColor = selected ? 'lightblue' : style.backgroundColor;
+//      <div style={ getStyles(this.props) }>
 
     return connectDragSource(connectDropTarget(
       <div onClick={(e)=>selectCard(e, this.props.id)} style={{ ...style, opacity, backgroundColor }}>

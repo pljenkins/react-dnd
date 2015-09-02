@@ -1,7 +1,17 @@
-import React from 'react';
+import React, { Component } from 'react';
 import Container from './Container';
+import CustomDragLayer from './CustomDragLayer';
+import { DragDropContext } from 'react-dnd';
+import SupportsTouch from '../../SupportsTouch';
+import HTML5Backend from 'react-dnd/modules/backends/HTML5';
+import TouchBackend from 'react-dnd/modules/backends/Touch';
 
-export default class ListSelection {
+@DragDropContext(SupportsTouch() ? TouchBackend : HTML5Backend)
+export default class ListSelection extends Component {
+  constructor(props) {
+      super(props);
+  }
+
   render() {
     return (
       <div>
@@ -12,6 +22,7 @@ export default class ListSelection {
           Multi select and drag and drop example
         </p>
         <Container />
+        <CustomDragLayer />
       </div>
     );
   }
