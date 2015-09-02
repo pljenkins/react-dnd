@@ -8,7 +8,7 @@ const style = {
   marginBottom: '.5rem',
   backgroundColor: 'white',
   cursor: 'move',
-  minWidth: '200px'
+  minWidth: '340px'
 };
 
 const cardSource = {
@@ -19,10 +19,10 @@ const cardSource = {
   endDrag(props, monitor) {
       const didDrop = monitor.didDrop();
   
-      if (!didDrop) {
-        props.moveRecentCardsBackFromBox();
+      if (didDrop) {
+        props.completeBoxMove();
       } else {
-          props.moveSelectedCardsToBox(true);
+        props.moveRecentCardsBackFromBox();
       }
     }
 };
@@ -51,7 +51,7 @@ export default class Card {
     id: PropTypes.any.isRequired,
     text: PropTypes.string.isRequired,
     moveRecentCardsBackFromBox: PropTypes.func.isRequired,
-    moveSelectedCardsToBox: PropTypes.func.isRequired,
+    completeBoxMove: PropTypes.func.isRequired,
     selectCard: PropTypes.func.isRequired,
     selected: PropTypes.bool.isRequired
   };

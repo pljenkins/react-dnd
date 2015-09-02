@@ -8,7 +8,7 @@ const style = {
   marginBottom: '.5rem',
   backgroundColor: 'white',
   cursor: 'move',
-  minWidth: '200px',
+  minWidth: '340px',
   minHeight: '40px'
 };
 

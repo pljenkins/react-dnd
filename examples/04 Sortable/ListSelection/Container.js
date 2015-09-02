@@ -7,8 +7,10 @@ import HTML5Backend from 'react-dnd/modules/backends/HTML5';
 import _ from 'lodash'
 
 const style = {
-  width: 600
+  width: 750
 };
+// TODO-NK: have the option of doing fancy styling somewhere based on whether
+// user is still dragging or not here, but this is good enough for now
 
 @DragDropContext(HTML5Backend)
 export default class Container extends Component {
@@ -16,6 +18,7 @@ export default class Container extends Component {
     super(props);
     this.moveRecentCardsBackFromBox = this.moveRecentCardsBackFromBox.bind(this);
     this.moveSelectedCardsToBox = this.moveSelectedCardsToBox.bind(this);
+    this.completeBoxMove = this.completeBoxMove.bind(this);
     this.selectCard = this.selectCard.bind(this);
     this.state = {
       cards: [{
@@ -53,34 +56,25 @@ export default class Container extends Component {
     };
   }
 
-  moveCard(id, afterId) {
-    const { cards } = this.state;
-
-    const card = cards.filter(c => c.id === id)[0];
-    const afterCard = cards.filter(c => c.id === afterId)[0];
-    const cardIndex = cards.indexOf(card);
-    const afterIndex = cards.indexOf(afterCard);
-
+  moveSelectedCardsToBox() {
+    var selectedIds = this.state.cards.filter(card => card.selected).map(card => card.id);
     this.setState(update(this.state, {
-      cards: {
-        $splice: [
-          [cardIndex, 1],
-          [afterIndex, 0, card]
-        ]
-      }
+      cardsInBox: { $push: selectedIds },
+      mostRecentlyMovedCards: { $set: selectedIds }
     }));
   }
 
-  moveSelectedCardsToBox(permanentMove) {
-      var selectedIds = this.state.cards.filter(card => card.selected).map(card => card.id),
-      recentlySelectedIds = permanentMove ? [] : selectedIds;
-      // TODO-NK: have the option of doing fancy styling based on whether user
-      // is still dragging or not here, but this is good enough for now
+  completeBoxMove() {
+    var selectedIds = this.state.cards.filter(card => card.selected).map(card => card.id),
+        unselectedCards = this.state.cards.map(function (card) {
+          card.selected = false;
+          return card;
+        });
 
-    this.setState(update(this.state, {
-      cardsInBox: { $push: selectedIds },
-      mostRecentlyMovedCards: { $set: recentlySelectedIds }
-    }));
+    this.setState({
+      cards: unselectedCards,
+      mostRecentlyMovedCards: []
+    });
   }
 
   moveRecentCardsBackFromBox() {
@@ -140,7 +134,7 @@ export default class Container extends Component {
               <Card key={card.id}
                     id={card.id}
                     text={card.text}
-                    moveSelectedCardsToBox={this.moveSelectedCardsToBox}
+                    completeBoxMove={this.completeBoxMove}
                     moveRecentCardsBackFromBox={this.moveRecentCardsBackFromBox}
                     selectCard={this.selectCard}
                     selected={card.selected} />
