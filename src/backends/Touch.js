@@ -113,6 +113,7 @@ class TouchBackend {
 
   handleTopTouchMoveCapture (e) {
     const { touchStartSourceIds } = this;
+    const dragDeadzone = 10;
 
     if (e.targetTouches.length !== 1) {
         return;
@@ -126,9 +127,10 @@ class TouchBackend {
       this._mouseClientOffset.hasOwnProperty('x') &&
       touchStartSourceIds &&
       (
-        this._mouseClientOffset.x !== clientOffset.x ||
-        this._mouseClientOffset.y !== clientOffset.y
+        Math.abs(this._mouseClientOffset.x - clientOffset.x) > dragDeadzone ||
+        Math.abs(this._mouseClientOffset.y - clientOffset.y) > dragDeadzone
       )
+
     ) {
       this.touchStartSourceIds = null;
 

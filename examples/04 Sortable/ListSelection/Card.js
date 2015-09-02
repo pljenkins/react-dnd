@@ -10,7 +10,7 @@ const style = {
   marginBottom: '.5rem',
   backgroundColor: 'white',
   cursor: 'move',
-  minWidth: '340px'
+  minWidth: '200px'
 };
 
 const cardSource = {
