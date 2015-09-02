@@ -164,7 +164,7 @@ export default class Container extends Component {
                     selectCard={this.selectCard}
                     debounceTouch={this.debounceTouch}
                     selected={card.selected}
-                    supportsTouch={true}/>
+                    supportsTouch={this.supportsTouch}/>
             );
           })}
         </div>
