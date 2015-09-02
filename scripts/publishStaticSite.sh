@@ -3,7 +3,7 @@ set -e
 
 PROJECT_DIRECTORY="react-dnd"
 SITE_DIRECTORY="$PROJECT_DIRECTORY-site"
-GITHUB_REPO="git@github.com:nicknw/react-dnd.git"
+GITHUB_REPO="git@github.com:nickknw/react-dnd.git"
 GH_PAGES_SITE="http://pljenkins.github.io/react-dnd/"
 
 # Move to parent dir
