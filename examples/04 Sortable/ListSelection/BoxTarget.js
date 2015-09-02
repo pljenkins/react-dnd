@@ -8,14 +8,13 @@ const style = {
   marginBottom: '.5rem',
   backgroundColor: 'white',
   cursor: 'move',
-  minWidth: '150px',
+  minWidth: '200px',
   minHeight: '40px'
 };
 
 const cardTarget = {
   hover(props, monitor) {
-    const draggedId = monitor.getItem().id;
-    props.moveCardToBox(draggedId);
+    props.moveSelectedCardsToBox();
   }
 };
 
@@ -26,7 +25,7 @@ export default class BoxTarget extends Component{
   static propTypes = {
     connectDropTarget: PropTypes.func.isRequired,
     items: PropTypes.array.isRequired,
-    moveCardToBox: PropTypes.func.isRequired
+    moveSelectedCardsToBox: PropTypes.func.isRequired
   };
 
   render() {

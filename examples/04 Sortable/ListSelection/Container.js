@@ -14,8 +14,8 @@ const style = {
 export default class Container extends Component {
   constructor(props) {
     super(props);
-    this.moveCard = this.moveCard.bind(this);
-    this.moveCardToBox = this.moveCardToBox.bind(this);
+    this.moveRecentCardsBackFromBox = this.moveRecentCardsBackFromBox.bind(this);
+    this.moveSelectedCardsToBox = this.moveSelectedCardsToBox.bind(this);
     this.selectCard = this.selectCard.bind(this);
     this.state = {
       cards: [{
@@ -48,7 +48,8 @@ export default class Container extends Component {
         selected: false
       }],
       cardsInBox: [],
-      selectedCards: []
+      selectedCards: [],
+      mostRecentlyMovedCards: []
     };
   }
 
@@ -70,23 +71,45 @@ export default class Container extends Component {
     }));
   }
 
-  moveCardToBox(id) {
+  moveSelectedCardsToBox(permanentMove) {
+      var selectedIds = this.state.cards.filter(card => card.selected).map(card => card.id),
+      recentlySelectedIds = permanentMove ? [] : selectedIds;
+      // TODO-NK: have the option of doing fancy styling based on whether user
+      // is still dragging or not here, but this is good enough for now
+
     this.setState(update(this.state, {
-      cardsInBox: { $push: [id] }
+      cardsInBox: { $push: selectedIds },
+      mostRecentlyMovedCards: { $set: recentlySelectedIds }
     }));
   }
 
+  moveRecentCardsBackFromBox() {
+      var cardsToRemove = this.state.mostRecentlyMovedCards,
+          cardsInBox = this.state.cardsInBox.filter(id => cardsToRemove.indexOf(id) === -1);
+
+      this.setState({ cardsInBox: cardsInBox });
+  }
+
   selectCard(e, id) {
-      var combineSelections = function (currentIndex, lastIndex, shiftKey, ctrlKey) {
-              if (shiftKey) {
-                  return lastIndex <= currentIndex ? _.range(lastIndex, currentIndex+1): _.range(currentIndex, lastIndex+1);
-              } else {
-                  return [currentIndex];
+      // indices?
+      var currentlySelectedIndexes = this.state.cards.map((card, index) => card.selected ? index : null).filter(index => index !== null),
+          combineSelections = function (currentIndex, lastIndex, e) {
+              var indexOfIndex = currentlySelectedIndexes.indexOf(currentIndex); // sorry
+
+              if (indexOfIndex !== -1 && !e.dragging) {
+                  currentlySelectedIndexes.splice(indexOfIndex, 1);
+              } else if (indexOfIndex === -1) {
+                  currentlySelectedIndexes.push(currentIndex);
               }
+              if (e.shiftKey) {
+                  // bit hacky, doesn't fully account for single click selection
+                  var indexesToAdd = lastIndex <= currentIndex ? _.range(lastIndex, currentIndex+1): _.range(currentIndex, lastIndex+1);
+                  currentlySelectedIndexes = currentlySelectedIndexes.concat(indexesToAdd);
+              }
+              return currentlySelectedIndexes; 
           },
-          lastSelected = this.state.lastSelected,
           indexOfCurrent = _.findIndex(this.state.cards, (card => card.id === id)),
-          selectedIndexes = combineSelections(indexOfCurrent, this.state.anchorIndex, e.shiftKey, e.ctrlKey),
+          selectedIndexes = combineSelections(indexOfCurrent, this.state.anchorIndex, e),
           updateCard = function (card, index) {
               if (selectedIndexes.indexOf(index) !== -1) {
                   card.selected = true;
@@ -96,12 +119,10 @@ export default class Container extends Component {
               return card;
           },
           updatedCards = this.state.cards.map(updateCard);
-      console.log(e);
-      console.log(e.shiftKey);
 
     this.setState({
         cards: updatedCards,
-        anchorIndex: e.shiftKey? this.state.anchorIndex : indexOfCurrent
+        anchorIndex: e.shiftKey ? this.state.anchorIndex : indexOfCurrent
     });
   }
 
@@ -119,7 +140,8 @@ export default class Container extends Component {
               <Card key={card.id}
                     id={card.id}
                     text={card.text}
-                    moveCard={this.moveCard}
+                    moveSelectedCardsToBox={this.moveSelectedCardsToBox}
+                    moveRecentCardsBackFromBox={this.moveRecentCardsBackFromBox}
                     selectCard={this.selectCard}
                     selected={card.selected} />
             );
@@ -127,7 +149,7 @@ export default class Container extends Component {
         </div>
         <div style={{ float: 'right'}}>
           <BoxTarget  items={boxCards}
-                      moveCardToBox={this.moveCardToBox}/>
+                      moveSelectedCardsToBox={this.moveSelectedCardsToBox}/>
         </div>
       </div>
     );

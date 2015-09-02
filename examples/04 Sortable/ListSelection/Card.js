@@ -7,25 +7,32 @@ const style = {
   padding: '0.5rem 1rem',
   marginBottom: '.5rem',
   backgroundColor: 'white',
-  cursor: 'move'
+  cursor: 'move',
+  minWidth: '200px'
 };
 
 const cardSource = {
-  canDrag(props) {
-      return props.selected;
-  },
   beginDrag(props) {
+    props.selectCard({dragging: true}, props.id);
     return { id: props.id };
-  }
+  },
+  endDrag(props, monitor) {
+      const didDrop = monitor.didDrop();
+  
+      if (!didDrop) {
+        props.moveRecentCardsBackFromBox();
+      } else {
+          props.moveSelectedCardsToBox(true);
+      }
+    }
 };
 
 const cardTarget = {
+  canDrop() {
+    return false;
+  },
   hover(props, monitor) {
-    const draggedId = monitor.getItem().id;
-
-    if (draggedId !== props.id) {
-      props.moveCard(draggedId, props.id);
-    }
+    props.moveRecentCardsBackFromBox();
   }
 };
 
@@ -43,7 +50,8 @@ export default class Card {
     isDragging: PropTypes.bool.isRequired,
     id: PropTypes.any.isRequired,
     text: PropTypes.string.isRequired,
-    moveCard: PropTypes.func.isRequired,
+    moveRecentCardsBackFromBox: PropTypes.func.isRequired,
+    moveSelectedCardsToBox: PropTypes.func.isRequired,
     selectCard: PropTypes.func.isRequired,
     selected: PropTypes.bool.isRequired
   };
