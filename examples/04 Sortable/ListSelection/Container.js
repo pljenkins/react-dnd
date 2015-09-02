@@ -137,11 +137,12 @@ export default class Container extends Component {
               }
               return card;
           },
-          updatedCards = this.state.cards.map(updateCard);
+          updatedCards = this.state.cards.map(updateCard),
+          wasDelecting = !this.state.cards[indexOfCurrent].selected;
 
     this.setState({
         cards: updatedCards,
-        anchorIndex: e.shiftKey ? this.state.anchorIndex : indexOfCurrent
+        anchorIndex: e.shiftKey || wasDelecting ? this.state.anchorIndex : indexOfCurrent
     });
   }
 
