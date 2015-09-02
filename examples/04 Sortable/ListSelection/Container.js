@@ -194,14 +194,16 @@ export default class Container extends Component {
   selectCardStyleB(e, id) {
     e.targetTouches = e.targetTouches || [];
     console.log('selectCardStyleB arguments', e.targetTouches.length, id, e);
+    var indexOfCurrent = _.findIndex(this.state.cards, (card => card.id === id));
+    var anchorIndex = undefined;
 
-    if (e.targetTouches && e.targetTouches && e.targetTouches.length > 1) {
-      e.shiftKey = true;
+    if (e.shiftKey || (e.targetTouches && e.targetTouches && e.targetTouches.length > 1) && _.isUndefined(this.state.anchorIndex)) {
+      anchorIndex = indexOfCurrent;
       console.log('selectCardStyleB multitouch');
     }
     // indices?
     var currentlySelectedIndexes = this.state.cards.map((card, index) => card.selected ? index : null).filter(index => index !== null),
-      combineSelections = function (currentIndex, lastIndex, e) {
+      combineSelections = function (currentIndex, currentAnchorIndex, e) {
         var indexOfIndex = currentlySelectedIndexes.indexOf(currentIndex); // sorry
 
         if (indexOfIndex !== -1 && !e.dragging) {
@@ -209,14 +211,14 @@ export default class Container extends Component {
         } else if (indexOfIndex === -1) {
           currentlySelectedIndexes.push(currentIndex);
         }
-        if (e.shiftKey) {
+        if (!_.isUndefined(currentAnchorIndex)) {
           // bit hacky, doesn't fully account for single click selection
-          var indexesToAdd = lastIndex <= currentIndex ? _.range(lastIndex, currentIndex+1): _.range(currentIndex, lastIndex+1);
+          var indexesToAdd = currentAnchorIndex <= currentIndex ? _.range(currentAnchorIndex, currentIndex+1): _.range(currentIndex, currentAnchorIndex+1);
           currentlySelectedIndexes = currentlySelectedIndexes.concat(indexesToAdd);
         }
         return currentlySelectedIndexes;
       },
-      indexOfCurrent = _.findIndex(this.state.cards, (card => card.id === id)),
+
       selectedIndexes = combineSelections(indexOfCurrent, this.state.anchorIndex, e),
       updateCard = function (card, index) {
         if (selectedIndexes.indexOf(index) !== -1) {
@@ -226,24 +228,29 @@ export default class Container extends Component {
         }
         return card;
       },
-      updatedCards = this.state.cards.map(updateCard),
-      wasDelecting = !this.state.cards[indexOfCurrent].selected;
+      updatedCards = this.state.cards.map(updateCard);
 
     this.setState({
       cards: updatedCards,
-      anchorIndex: e.shiftKey || wasDelecting ? this.state.anchorIndex : indexOfCurrent
+      anchorIndex: anchorIndex
     });
   }
 
   setSelectionStyleA() {
     console.log('setSelectionStyleA');
-    this.setState({cards: this.state.cards.map(card => {card.selected = false; return card})});
+    this.setState({
+      cards: this.state.cards.map(card => {card.selected = false; return card}),
+      anchorIndex: undefined
+    });
     this.selectionStyle = selectionA;
   }
 
   setSelectionStyleB() {
     console.log('setSelectionStyleB');
-    this.setState({cards: this.state.cards.map(card => {card.selected = false; return card})});
+    this.setState({
+      cards: this.state.cards.map(card => {card.selected = false; return card}),
+      anchorIndex: undefined
+    });
     this.selectionStyle = selectionB;
   }
 
@@ -255,11 +262,12 @@ export default class Container extends Component {
 
     return (
       <div style={style}>
-        <input type="radio" name="selectionStyle" id="selection-style-A" defaultChecked={true} onChange={this.setSelectionStyleA}>Selection style A</input>
-        <input type="radio" name="selectionStyle" id="selection-style-B" onChange={this.setSelectionStyleB}>Selection style B</input>
-
+        <div>
+          <label for="selection-style-A"><input type="radio" name="selectionStyle" id="selection-style-A" defaultChecked={true} onChange={this.setSelectionStyleA}/>Selection style A</label>
+          <label for="selection-style-B"><input type="radio" name="selectionStyle" id="selection-style-B" onChange={this.setSelectionStyleB}/>Selection style B</label>
+        </div>
         <div style={{ float: 'left' }}>
-          {cards.filter(card => this.state.cardsInBox.indexOf(card.id) === -1).map(card => {
+          {cards.filter(card => this.state.cardsInBox.indexOf(card.id) === -1).map((card, index) => {
             return (
               <Card key={card.id}
                     id={card.id}
@@ -269,7 +277,8 @@ export default class Container extends Component {
                     selectCard={this.selectCard}
                     debounceTouch={this.debounceTouch}
                     selected={card.selected}
-                    supportsTouch={this.supportsTouch}/>
+                    supportsTouch={this.supportsTouch}
+                    isAnchor={this.selectionStyle === selectionB && index === this.state.anchorIndex} />
             );
           })}
         </div>

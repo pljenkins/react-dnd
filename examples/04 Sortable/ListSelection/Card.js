@@ -84,13 +84,14 @@ export default class Card {
     selected: PropTypes.bool.isRequired,
     left: PropTypes.number.isRequired,
     top: PropTypes.number.isRequired,
-    supportsTouch: PropTypes.bool.isRequired
+    supportsTouch: PropTypes.bool.isRequired,
+    isAnchor: PropTypes.bool.isRequired
   };
 
   render() {
-    const { text, isDragging, connectDragSource, connectDropTarget, selectCard, debounceTouch, selected, supportsTouch } = this.props;
+    const { text, isDragging, connectDragSource, connectDropTarget, selectCard, debounceTouch, selected, supportsTouch, isAnchor } = this.props;
     const opacity = isDragging ? 0 : 1;
-    const backgroundColor = selected ? 'lightblue' : style.backgroundColor;
+    const backgroundColor = isAnchor ? 'lightgreen' : (selected ? 'lightblue' : style.backgroundColor);
 //      <div style={ getStyles(this.props) }>
     var clickTouchEvent = supportsTouch ? {onTouchStart: (e)=>debounceTouch(e, this.props.id)} : {onClick: (e)=>selectCard(e, this.props.id)};
     var tmp = connectDragSource(connectDropTarget(
