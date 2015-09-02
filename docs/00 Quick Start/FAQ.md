@@ -47,7 +47,7 @@ export default class MyComponent {
 
 ### Where do I get the precompiled version?
 
-Grab it from the [dist folder](https://github.com/gaearon/react-dnd/tree/master/dist) in the repo.  
+Grab it from the [dist folder](https://github.com/pljenkins/react-dnd/tree/master/dist) in the repo.  
 It exports `ReactDnD` (watch the casing!) and `ReactDnD.HTML5` for the [`HTML5` backend](docs-html5-backend.html).
 
 ### How do I test React DnD components and their interaction?
@@ -341,7 +341,7 @@ The next big feature to be added is the support for the touch events backend. Th
 
 ### Who made it and why?
 
-React DnD was created by [Dan Abramov](http://github.com/gaearon).
+React DnD was created by [Dan Abramov](http://github.com/pljenkins).
 
 Its aim is to expose a powerful API that is browser-agnostic, data-centric, works great with React and Flux, and is testable and extensible. Read [The Future of the Drag and Drop API](https://medium.com/@dan_abramov/the-future-of-drag-and-drop-apis-249dfea7a15f) for some context.
 
@@ -356,11 +356,11 @@ React DnD would not have reached the 1.0 release without the generous donations 
 
 ### How Do I Contribute?
 
-Contributing the documentation for the underlying [DnD Core](https://github.com/gaearon/dnd-core) library would be a huge help, as it is currently not documented at all, but its concepts leak in some advanced scenarios such as [writing tests](docs-testing.html).
+Contributing the documentation for the underlying [DnD Core](https://github.com/pljenkins/dnd-core) library would be a huge help, as it is currently not documented at all, but its concepts leak in some advanced scenarios such as [writing tests](docs-testing.html).
 
 Porting the library to other modern frameworks such as Cycle, Mercury, or Deku, is also appreciated. Such ports would be able to reuse DnD Core logic and the existing backends.
 
-Please let me know via the [issue tracker](https://github.com/gaearon/react-dnd/issues) if you create advanced examples such as a Kanban board application, or write a blog post or record a screencast about React DnD, so I can link to it.
+Please let me know via the [issue tracker](https://github.com/pljenkins/react-dnd/issues) if you create advanced examples such as a Kanban board application, or write a blog post or record a screencast about React DnD, so I can link to it.
 
 While DnD Core is fully tested, React DnD does not currently have any unit tests. Writing them is a great and eagerly desired contribution.
 

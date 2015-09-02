@@ -13,7 +13,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/nickknw/react-dnd.git"
+    "url": "https://github.com/pljenkins/react-dnd.git"
   },
   "keywords": [
     "react",
@@ -30,12 +30,12 @@
     "react-component",
     "hoc"
   ],
-  "author": "Dan Abramov <dan.abramov@me.com> (http://github.com/gaearon)",
+  "author": "Dan Abramov <dan.abramov@me.com> (http://github.com/pljenkins)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/gaearon/react-dnd/issues"
+    "url": "https://github.com/pljenkins/react-dnd/issues"
   },
-  "homepage": "https://github.com/gaearon/react-dnd",
+  "homepage": "https://github.com/pljenkins/react-dnd",
   "dependencies": {
     "disposables": "^1.0.1",
     "dnd-core": "^1.1.0",

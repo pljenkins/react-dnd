@@ -6,7 +6,7 @@ React DnD is a set of React [higher-order](https://medium.com/@dan_abramov/mixin
 npm install --save react-dnd
 ```
 
-You can also grab the standalone build from [the repo's `dist` folder](https://github.com/gaearon/react-dnd/tree/master/dist).
+You can also grab the standalone build from [the repo's `dist` folder](https://github.com/pljenkins/react-dnd/tree/master/dist).
 
 ## What's It Look Like?
 
@@ -186,7 +186,7 @@ React DnD does not export mixins, and works equally great with any components, w
 
 ## Touch Support
 
-React DnD does not work on mobile browsers yet because it currently relies on the HTML5 drag and drop API which no mobile browsers implement. However, because React DnD is extensible, it is possible to add touch support using a custom backend [with about 200 lines of code](https://github.com/gaearon/react-dnd/blob/ba8359ab3d7c76592357e078561d0e9d96afbcb0/src/backends/Touch.js). This is currently a proof of concept, but any contributions in this direction are welcome. Touch support will be a priority for the upcoming 1.x releases.
+React DnD does not work on mobile browsers yet because it currently relies on the HTML5 drag and drop API which no mobile browsers implement. However, because React DnD is extensible, it is possible to add touch support using a custom backend [with about 200 lines of code](https://github.com/pljenkins/react-dnd/blob/ba8359ab3d7c76592357e078561d0e9d96afbcb0/src/backends/Touch.js). This is currently a proof of concept, but any contributions in this direction are welcome. Touch support will be a priority for the upcoming 1.x releases.
 
 ## Non-Goals
 
@@ -194,8 +194,8 @@ React DnD gives you a set of powerful primitives, but it does not contain any re
 
 ## Support and Contributions
 
-Issues and potential improvements are discussed on [Github](https://github.com/gaearon/react-dnd/issues).  
-The [Gitter room](https://gitter.im/gaearon/react-dnd) is another good place to get support.
+Issues and potential improvements are discussed on [Github](https://github.com/pljenkins/react-dnd/issues).  
+The [Gitter room](https://gitter.im/pljenkins/react-dnd) is another good place to get support.
 
 ## License
 

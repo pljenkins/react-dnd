@@ -9,9 +9,9 @@ We will use this example to demonstrate the data-driven approach of React DnD. Y
 
 If you're new to React and know a thing or two about it, but yet have to gain some experience building components, this tutorial can also serve as an introduction to the React mode of thinking and the React workflow. **If you are a seasoned React developer and only came here for the drag and drop part, feel free to skip to the third and the final chapter of this tutorial.**
 
-Enough talk! It's time to set up a build workflow for our little project. I use [Webpack](http://webpack.github.io/), you might be using [Browserify](http://browserify.org/). I don't want to get into that now, so just set up an empty React project in whatever way is most convenient for you. If you're feeling lazy, you are free to clone [React Hot Boilerplate](https://github.com/gaearon/react-hot-boilerplate) and work on top of it. In fact, that's what I'm going to do myself.
+Enough talk! It's time to set up a build workflow for our little project. I use [Webpack](http://webpack.github.io/), you might be using [Browserify](http://browserify.org/). I don't want to get into that now, so just set up an empty React project in whatever way is most convenient for you. If you're feeling lazy, you are free to clone [React Hot Boilerplate](https://github.com/pljenkins/react-hot-boilerplate) and work on top of it. In fact, that's what I'm going to do myself.
 
-In this tutorial, the code examples are available simultaneously in ES5, ES6, and [ES7](docs-faq.html). If you want to follow along using ES6 or ES7, you will need to set up a compilation step using [Babel](https://babeljs.io/). It's easy to [make it work with the tool of your choice](https://babeljs.io/docs/using-babel/) so we're going to skip this step, too, and assume you've dealt with it and you are ready to write code now. The boilerplate project [I linked to before](https://github.com/gaearon/react-hot-boilerplate) already includes Babel.
+In this tutorial, the code examples are available simultaneously in ES5, ES6, and [ES7](docs-faq.html). If you want to follow along using ES6 or ES7, you will need to set up a compilation step using [Babel](https://babeljs.io/). It's easy to [make it work with the tool of your choice](https://babeljs.io/docs/using-babel/) so we're going to skip this step, too, and assume you've dealt with it and you are ready to write code now. The boilerplate project [I linked to before](https://github.com/pljenkins/react-hot-boilerplate) already includes Babel.
 
 The app we're going to build is [available as an example on this website](examples-chessboard-tutorial-app.html).
 
@@ -37,7 +37,7 @@ The good news is, it doesn't matter at this point. We're just going to write the
 
 ## Creating the Components
 
-I prefer to start bottom-up, because this way I'm always working with something that already exists. If I were to build the `Board` first, I wouldn't see my results until I'm done with the `Square`. On the other hand, I can build and see the `Square` right away without even thinking of the `Board`. I think that the immediate feedback loop is important (you can tell that by [another project I work on](https://gaearon.github.io/react-hot-loader)).
+I prefer to start bottom-up, because this way I'm always working with something that already exists. If I were to build the `Board` first, I wouldn't see my results until I'm done with the `Square`. On the other hand, I can build and see the `Square` right away without even thinking of the `Board`. I think that the immediate feedback loop is important (you can tell that by [another project I work on](https://pljenkins.github.io/react-hot-loader)).
 
 In fact I'm going to start with the `Knight`. It doesn't have any props at all, and it the easiest one to build:
 

@@ -1,5 +1,5 @@
 /* global window, document */
-// This is basically https://github.com/gaearon/react-dnd/blob/ba8359ab3d7c76592357e078561d0e9d96afbcb0/src/backends/Touch.js
+// This is basically https://github.com/pljenkins/react-dnd/blob/ba8359ab3d7c76592357e078561d0e9d96afbcb0/src/backends/Touch.js
 'use strict';
 import { DragSource } from 'dnd-core';
 import { getElementClientOffset, getEventClientOffset } from '../utils/OffsetHelpers';
