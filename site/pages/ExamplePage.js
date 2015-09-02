@@ -8,15 +8,7 @@ export default class ExamplesPage {
   render() {
     return (
       <div>
-        <Header/>
-        <PageBody hasSidebar>
-          <SideBar
-            groups={ExamplePages}
-            example={this.props.example}
-          />
-
-          {this.props.children}
-        </PageBody>
+        {this.props.children}
       </div>
     );
   }

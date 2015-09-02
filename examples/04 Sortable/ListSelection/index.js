@@ -17,10 +17,7 @@ export default class ListSelection extends Component {
     // <CustomDragLayer /> should go after Container if to show the component while it is being dragged in a touch scenario
     return (
       <div>
-        <p>
-          <b><a href='https://github.com/gaearon/react-dnd/tree/master/examples/04%20Sortable/ListSelection'>Browse the Source</a></b>
-        </p>
-        <p>
+        <p style={{'margin-left':50}}>
           Multi select and drag and drop example
         </p>
         <Container />

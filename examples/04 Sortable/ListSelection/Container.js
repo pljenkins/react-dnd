@@ -7,8 +7,9 @@ import _ from 'lodash';
 import SupportsTouch from '../../SupportsTouch';
 
 const style = {
-  width: 450
-  },
+  width: 450,
+  'margin-left': 50
+},
   selectionA = 'A',
   selectionB = 'B';
 
