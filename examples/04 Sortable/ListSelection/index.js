@@ -13,6 +13,7 @@ export default class ListSelection extends Component {
   }
 
   render() {
+    // <CustomDragLayer /> should go after Container if to show the component while it is being dragged in a touch scenario
     return (
       <div>
         <p>
@@ -22,7 +23,6 @@ export default class ListSelection extends Component {
           Multi select and drag and drop example
         </p>
         <Container />
-        <CustomDragLayer />
       </div>
     );
   }
