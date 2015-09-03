@@ -320,9 +320,9 @@ export default class Container extends Component {
 
     return (
       <div style={style}>
-        <div>
+        <div style={{display: 'inline-block', 'margin-bottom': 30}}>
           <label for="selection-style-A"><input type="radio" name="selectionStyle" id="selection-style-A" defaultChecked={true} onChange={this.setSelectionStyleA}/>Selection style A</label>
-          <label for="selection-style-B"><input type="radio" name="selectionStyle" id="selection-style-B" onChange={this.setSelectionStyleB}/>Selection style B</label>
+          <label for="selection-style-B"><input style={{'margin-left': 20}} type="radio" name="selectionStyle" id="selection-style-B" onChange={this.setSelectionStyleB}/>Selection style B</label>
         </div>
         <div style={{ float: 'left' }}>
           {cards.filter(card => this.state.cardsInBox.indexOf(card.id) === -1).map((card, index) => {
