@@ -315,7 +315,7 @@ export default class Container extends Component {
   render() {
     const { cards } = this.state;
     const boxCards = cards.filter(card => this.state.cardsInBox.indexOf(card.id) !== -1).map(card => {
-      return (card.text)
+      return (card.id + ". " + card.text)
     });
 
     return (
@@ -329,7 +329,7 @@ export default class Container extends Component {
             return (
               <Card key={card.id}
                     id={card.id}
-                    text={card.text}
+                    text={card.id + ". " + card.text}
                     completeBoxMove={this.completeBoxMove}
                     moveRecentCardsBackFromBox={this.moveRecentCardsBackFromBox}
                     selectCard={this.selectCard}
