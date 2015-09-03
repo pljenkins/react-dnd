@@ -30,7 +30,7 @@
     "react-component",
     "hoc"
   ],
-  "author": "Dan Abramov <dan.abramov@me.com> (http://github.com/pljenkins)",
+  "author": "Dan Abramov <dan.abramov@me.com>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/pljenkins/react-dnd/issues"

@@ -90,6 +90,62 @@ export default class Container extends Component {
         id: 14,
         text: 'FFPE',
         selected: false
+      }, {
+        id: 15,
+        text: 'Frank2',
+        selected: false
+      }, {
+        id: 16,
+        text: 'And Drag N Drop2',
+        selected: false
+      }, {
+        id: 17,
+        text: 'Unite!2',
+        selected: false
+      }, {
+        id: 18,
+        text: 'Fancy DNA Sample2',
+        selected: false
+      }, {
+        id: 19,
+        text: 'Tumor Tissue2',
+        selected: false
+      }, {
+        id: 20,
+        text: 'Blood Sample2',
+        selected: false
+      }, {
+        id: 21,
+        text: 'Feather2',
+        selected: false
+      }, {
+        id: 22,
+        text: 'Knight2',
+        selected: false
+      }, {
+        id: 23,
+        text: 'Sparkles2',
+        selected: false
+      }, {
+        id: 24,
+        text: 'Boots2',
+        selected: false
+      }, {
+        id: 25,
+        text: 'Hodor!2',
+        selected: false
+      }, {
+        id: 26,
+        text: 'Bone Marrow2',
+        selected: false
+      }, {
+        id: 27,
+        text: 'Epithelial Cells2',
+        selected: false
+      }, {
+        id: 28,
+        text: 'FFPE2',
+        selected: false
       }],
       cardsInBox: [],
       selectedCards: [],
@@ -135,6 +191,7 @@ export default class Container extends Component {
         singleTouch.cancel();
       }
       this.selectCard(e, id);
+      e.preventDefault();
     }
   }
 
