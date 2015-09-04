@@ -31,6 +31,7 @@ export default class Container extends Component {
     this.selectCardStyleB = this.selectCardStyleB.bind(this);
     this.setSelectionStyleA = this.setSelectionStyleA.bind(this);
     this.setSelectionStyleB = this.setSelectionStyleB.bind(this);
+    this.resetSelection = this.resetSelection.bind(this);
     this.supportsTouch = SupportsTouch();
     console.log('constructor this.supportsTouch', this.supportsTouch);
     this.state = {
@@ -312,6 +313,14 @@ export default class Container extends Component {
     this.selectionStyle = selectionB;
   }
 
+  resetSelection() {
+    console.log('resetSelection');
+    this.setState({
+      cards: this.state.cards.map(card => {card.selected = false; return card}),
+      anchorIndex: undefined
+    });
+  }
+
   render() {
     const { cards } = this.state;
     const boxCards = cards.filter(card => this.state.cardsInBox.indexOf(card.id) !== -1).map(card => {
@@ -320,6 +329,7 @@ export default class Container extends Component {
 
     return (
       <div style={style}>
+        <button style={{'margin-bottom': 30, fontSize: 14, width: 70, height: 40}} onClick={this.resetSelection}>Reset</button><br/>
         <div style={{display: 'inline-block', 'margin-bottom': 30}}>
           <label for="selection-style-A"><input type="radio" name="selectionStyle" id="selection-style-A" defaultChecked={true} onChange={this.setSelectionStyleA}/>Selection style A</label>
           <label for="selection-style-B"><input style={{'margin-left': 20}} type="radio" name="selectionStyle" id="selection-style-B" onChange={this.setSelectionStyleB}/>Selection style B</label>
